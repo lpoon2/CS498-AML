@@ -41,46 +41,52 @@ parseData <- function() {
   scaledTr <- scale(trData)
   scaledTs <- scale(tsData)
   scaledV <- scale(vData)
-
+  
 } 
 
 a = matrix(0, ncol = 6)
 b = runif(1, 0, 1)
-lambda = 0.1
+lambdas = c(0.0001, 0.001,0.01, 1)
 
-for (epoch in 1:50) {
-  # separate 50 samples 
-  idx <- sample(1:length(scaledTr[,1]),50)
-  valid <- scaledTr[idx, ]
-  epochTr <- scaledTr[-idx, ]
-  validLabels <- as.numeric(trLabel[idx]) 
-  validLabels <- replace (as.numeric(validLabels) ,as.numeric(validLabels) == 1 , -1)
-  validLabels <- replace (as.numeric(validLabels) ,as.numeric(validLabels) == 2 , 1)  
-  epochLabel <- as.numeric(trLabel[-idx]) 
-  epochLabel <- replace (as.numeric(epochLabel) ,as.numeric(epochLabel) == 1 , -1)
-  epochLabel <- replace (as.numeric(epochLabel) ,as.numeric(epochLabel) == 2 , 1)
+for (lambda in lambdas){
+  print(lambda)
+  for (epoch in 1:50) {
+    # separate 50 samples 
+    idx <- sample(1:length(scaledTr[,1]),50)
+    valid <- scaledTr[idx, ]
+    epochTr <- scaledTr[-idx, ]
+    validLabels <- as.numeric(trLabel[idx]) 
+    validLabels <- replace (as.numeric(validLabels) ,as.numeric(validLabels) == 1 , -1)
+    validLabels <- replace (as.numeric(validLabels) ,as.numeric(validLabels) == 2 , 1)  
+    epochLabel <- as.numeric(trLabel[-idx]) 
+    epochLabel <- replace (as.numeric(epochLabel) ,as.numeric(epochLabel) == 1 , -1)
+    epochLabel <- replace (as.numeric(epochLabel) ,as.numeric(epochLabel) == 2 , 1)
+    vLabel <- as.numeric(vLabel) 
+    vLabel <- replace (as.numeric(vLabel) ,as.numeric(vLabel) == 1 , -1)
+    vLabel <- replace (as.numeric(vLabel) ,as.numeric(vLabel) == 2 , 1)
+    
+    stepLen <- 1/(0.01 * epoch + 50 )
+    
+    for (step in 1:300) {
+      ridx <- sample(1: length(epochTr[,1]),1 )
+      x_i  <- epochTr[ridx,]
+      y_i <- epochLabel[ridx]
+      if ((y_i * (a %*% x_i) +b) >= 1){
+        a = a - stepLen*lambda*a 
+        b = b - stepLen*0
+      } else {
+        a = a - stepLen * (lambda*a - y_i*x_i)
+        b = b - stepLen * (-y_i) 
+      }
+      
+      if (step %% 30 == 0) {
+        #calAccuracy(a, valid, validLabels)
+      }
   
-  stepLen <- 1/(0.01 * epoch + 50 )
-  
-  for (step in 1:300) {
-    ridx <- sample(1: length(epochTr[,1]),1 )
-    x_i  <- epochTr[ridx,]
-    y_i <- epochLabel[ridx]
-    if ((y_i * (a %*% x_i) +b) >= 1){
-      a = a - stepLen*lambda*a 
-      b = b - stepLen*0
-    } else {
-      a = a - stepLen * (lambda*a - y_i*x_i)
-      b = b - stepLen * (-y_i) 
     }
     
-    if (step %% 30 == 0) {
-      calAccuracy(a, valid, validLabels)
-    }
-
   }
-  
-  
+  calAccuracy(a,vData, vLabel)
 }
 
 calAccuracy <- function(a, validations, labels) {
@@ -93,6 +99,7 @@ calAccuracy <- function(a, validations, labels) {
     }
   }
   acc =  correct/length(validations[,1])
+  mag_a = norm(a)
   print(acc) 
   
 }
