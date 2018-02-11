@@ -21,16 +21,16 @@ parseData <- function() {
   vData <- tsData[-test_idx,]
   
   
-  trLabel <- trData$V15
-  tsLabel <- tsData$V15
-  vLabel <- vData$V15
+  trLabel <<- trData$V15
+  tsLabel <<- tsData$V15
+  vLabel <<- vData$V15
   levels (trLabel) <- c(-1, 1, 0 , -1, 1)
   levels (tsLabel) <- c(-1, 1, 0 , -1, 1)
   levels (vLabel) <- c(-1, 1, 0 , -1, 1)
   
-  trData <- trData[,c(1,3,5,11,12,13)]
-  tsData <- tsData[,c(1,3,5,11,12,13)]
-  vData <- vData[,c(1,3,5,11,12,13)]
+  trData <<- trData[,c(1,3,5,11,12,13)]
+  tsData <<- tsData[,c(1,3,5,11,12,13)]
+  vData <<- vData[,c(1,3,5,11,12,13)]
   
   for (i in 1:6) {
     trData[,i] =as.numeric(trData[,i])
@@ -38,18 +38,35 @@ parseData <- function() {
     vData[,i] =as.numeric(vData[,i])
   }
   
-  scaledTr <- scale(trData)
-  scaledTs <- scale(tsData)
-  scaledV <- scale(vData)
+  scaledTr <<- scale(trData)
+  scaledTs <<- scale(tsData)
+  scaledV <<- scale(vData)
   
 } 
+calAccuracy <- function(a, validations, labels) {
+  correct = 0  
+  for ( j in 1:length(validations[,1])) {
+    guess <- a %*% validations[j,] + b 
+    res <- guess * labels[j]
+    if(res > 0) {
+      correct = correct + 1 
+    }
+  }
+  acc =  correct/length(validations[,1])
+  mag_a = norm(a, type="2")
+  #print(acc) 
+  return(acc) 
+}
 
-a = matrix(0, ncol = 6)
-b = runif(1, 0, 1)
 lambdas = c(0.0001, 0.001,0.01, 1)
-
+perfL <<- c()
+perf_total <<- c()
 for (lambda in lambdas){
+  perf <<- c() 
   print(lambda)
+  a <- matrix(0, ncol = 6)
+  b <- runif(1, 0, 1)
+  firstPlot <- T
   for (epoch in 1:50) {
     # separate 50 samples 
     idx <- sample(1:length(scaledTr[,1]),50)
@@ -67,7 +84,7 @@ for (lambda in lambdas){
     
     stepLen <- 1/(0.01 * epoch + 50 )
     
-    for (step in 1:300) {
+    for (step in 1:600) {
       ridx <- sample(1: length(epochTr[,1]),1 )
       x_i  <- epochTr[ridx,]
       y_i <- epochLabel[ridx]
@@ -80,27 +97,33 @@ for (lambda in lambdas){
       }
       
       if (step %% 30 == 0) {
-        #calAccuracy(a, valid, validLabels)
+        perf <<- c(perf , calAccuracy(a, valid, validLabels))
       }
   
     }
     
   }
-  calAccuracy(a,vData, vLabel)
+  perf_total <<- c(perf_total,perf)
+  print(length(perf_total))
+  print("================ testing with validation set ==================")
+  lamb_acc <- calAccuracy(a,scaledV, vLabel)
+  perfL <<- c(perfL, lamb_acc)
+  print(lamb_acc)
+}
+lineColors <<-c()
+for (i in 1:4) {
+  perf_total <- matrix(perf_total, ncol = 500)
+  color <- sample(1:657, 1)
+  lineColors <- c(lineColors,29+i)
+  if (i == 1) {
+    plot(1:1000, perf_total[i,],type="l", col= 29+i, xlab="Steps", ylab="Accuracy")
+  } else {
+    lines(1:1000, perf_total[i,], type="l", col= 29+i)  
+  }
 }
 
-calAccuracy <- function(a, validations, labels) {
-  correct = 0  
-  for ( j in 1:length(validations[,1])) {
-    guess <- a %*% validations[j,] + b 
-    res <- guess * labels[j]
-    if(res > 0) {
-      correct = correct + 1 
-    }
-  }
-  acc =  correct/length(validations[,1])
-  mag_a = norm(a)
-  print(acc) 
-  
-}
+legend(430,0.6, legend = lambdas, col= lineColors,lty=1:2, cex=0.8,box.lty=0)
+
+
+
 
