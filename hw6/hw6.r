@@ -279,3 +279,69 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 0.7901 on 990 degrees of freedom
 Multiple R-squared:  0.2838,	Adjusted R-squared:  0.2346 
 F-statistic:  5.77 on 68 and 990 DF,  p-value: < 2.2e-16
+
+
+latitude_ra <- glmnet(as.matrix(x), latitude_d^(1/2)  , alpha = 0)
+plot(latitude_ra)
+summary(latitude_ra)
+          Length Class     Mode   
+a0         100   -none-    numeric
+beta      6800   dgCMatrix S4     
+df         100   -none-    numeric
+dim          2   -none-    numeric
+lambda     100   -none-    numeric
+dev.ratio  100   -none-    numeric
+nulldev      1   -none-    numeric
+npasses      1   -none-    numeric
+jerr         1   -none-    numeric
+offset       1   -none-    logical
+call         4   -none-    call   
+nobs         1   -none-    numeric
+
+
+#alpha=0 is ridge, alpha= 1 is lasso
+latitude_ra_fit <- cv.glmnet(as.matrix(x), latitude_d^(1/2)  , alpha = 0)
+plot(latitude_ra_fit)
+opt_lambda <- latitude_ra_fit$lambda.min
+y_predicted <- predict(latitude_ra, s = opt_lambda, newx = as.matrix(x))
+sst <- sum((latitude_d - mean(latitude_d))^2)
+sse <- sum((y_predicted^2 - latitude_d)^2)
+rsq <- 1 - sse / sst
+rsq
+[1] 0.2340238
+
+longitude_ra <- glmnet(as.matrix(x), longitude_d  , alpha = 0)
+plot(longitude_ra)
+longitude_ra_fit <- cv.glmnet(as.matrix(x), longitude_d  , alpha = 0)
+plot(longitude_ra_fit)
+opt_lambda <- longitude_ra_fit$lambda.min
+y_predicted <- predict(longitude_ra, s = opt_lambda, newx = as.matrix(x))
+sst <- sum((longitude_d - mean(longitude_d))^2)
+sse <- sum((y_predicted - longitude_d)^2)
+rsq <- 1 - sse / sst
+rsq
+[1] 0.3193726
+
+latitude_ra <- glmnet(as.matrix(x), latitude_d^(1/2)    , alpha = 1)
+plot(latitude_ra)
+latitude_ra_fit <- cv.glmnet(as.matrix(x), latitude_d^(1/2)  , alpha = 1)
+plot(latitude_ra_fit)
+opt_lambda <- latitude_ra_fit$lambda.min
+y_predicted <- predict(latitude_ra, s = opt_lambda, newx = as.matrix(x))
+sst <- sum((latitude_d - mean(latitude_d))^2)
+sse <- sum((y_predicted^2 - latitude_d)^2)
+rsq <- 1 - sse / sst
+rsq
+[1] 0.2254387
+
+longitude_ra <- glmnet(as.matrix(x), longitude_d  , alpha = 1)
+plot(longitude_ra)
+longitude_ra_fit <- cv.glmnet(as.matrix(x), longitude_d  , alpha = 1)
+plot(longitude_ra_fit)
+opt_lambda <- longitude_ra_fit$lambda.min
+y_predicted <- predict(longitude_ra, s = opt_lambda, newx = as.matrix(x))
+sst <- sum((longitude_d - mean(longitude_d))^2)
+sse <- sum((y_predicted - longitude_d)^2)
+rsq <- 1 - sse / sst
+rsq
+[1] 0.32164
