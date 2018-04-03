@@ -12,9 +12,11 @@ for (i in 1:23){
   x[i] <- as.numeric(paste(x[[i]]))
 }
 
+
 acc_train  <- c()
 acc_test  <- c()
-for (i in c(0, 0.25, 0.5, 0.75, 1)) {
+for (i in c(-1, 0, 0.25, 0.5, 0.75, 1)) {
+  print(paste('Processing alpha :',i))
   temp_acc_train  <- c()
   temp_acc_test  <- c()
   n_folds <- 10
@@ -29,21 +31,36 @@ for (i in c(0, 0.25, 0.5, 0.75, 1)) {
     test_y <- y[test_i]
     
     #training model 
+    if (i == -1) {
+      l1_model <- glm(train_y ~ . , as.data.frame(train_x), family="binomial")
+      num_var <- sum(l1_model$coefficients == 0) #68
+      l1_lambda <- NA
+    } else {
     l1_model <- glmnet(as.matrix(train_x), train_y , alpha = i, family="binomial")
     l1_model_cv <- cv.glmnet(as.matrix(train_x), train_y, alpha = i,family="binomial")
     l1_lambda <- l1_model_cv$lambda.min
-    plot(l1_model_cv)
+    num_var <- length(predict(l1_model, s = l1_lambda, newx = as.matrix(train_x), type=c("nonzero"))[[1]])
+    }
+    print(paste('Using #parameter :',num_var))
     print(paste('Using lambda value :',l1_lambda))
   
     #accuracy on trainging
+    if ( i == -1) {
+      predicted <- predict(l1_model, newx = as.matrix(train_x))
+    } else {
     predicted <- predict(l1_model, s = l1_lambda, newx = as.matrix(train_x))
+    }
     predicted <- ifelse(predicted > 0.5,1,0)
     misClasificError <- mean(predicted != train_y)
     print(paste('Accuracy on training set',1-misClasificError))
     temp_acc_train <- c(temp_acc_train,1-misClasificError) 
     
     #accuracy on testing
+    if ( i == -1) {
+      predicted <- predict(l1_model, newx = as.matrix(train_x))
+    } else {
     predicted <- predict(l1_model, s = l1_lambda, newx = as.matrix(test_x))
+    }
     predicted <- ifelse(predicted > 0.5,1,0)
     misClasificError <- mean(predicted != test_y)
     print(paste('Accuracy on testing set',1-misClasificError))
