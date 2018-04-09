@@ -55,7 +55,7 @@ def m_step(dfcluster, p, pi):
 
 def is_converged(prev_w_ij, w_ij, iteration):
     diff =  np.mean(np.abs(np.subtract(prev_w_ij, w_ij)))
-    print str(iteration)+': diff w_ij='+str(np.mean(np.abs(np.subtract(prev_w_ij, w_ij))))
+    print str(iteration)+': diff w_ij='+str(diff)
     if diff <= stop_convergence_diff:
         return True
     else:
@@ -81,9 +81,9 @@ def main():
     prev_w_ij = np.zeros((D, n_blob))
     while(True):
         Q, w_ij = m_step(dfcluster, p, pi)
-        p, pi = e_step(dfcluster, w_ij, p, pi)
         if is_converged(prev_w_ij, w_ij, iteration):
             break
+        p, pi = e_step(dfcluster, w_ij, p, pi)
         iteration+=1
         prev_w_ij = w_ij
 

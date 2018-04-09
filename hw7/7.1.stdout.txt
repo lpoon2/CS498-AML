@@ -1,0 +1,348 @@
+/anaconda2/bin/python CS498-AML/hw7/7.1.py
+1: diff w_ij=0.03333333333333333
+2: diff w_ij=0.02679268395218314
+3: diff w_ij=0.010832881933678408
+4: diff w_ij=0.005171001263676734
+5: diff w_ij=0.002993157980491436
+6: diff w_ij=0.0023828801406302795
+7: diff w_ij=0.0011291700001903285
+8: diff w_ij=0.0004876437281455262
+9: diff w_ij=0.00040645303088188584
+10: diff w_ij=0.0004677387610980456
+11: diff w_ij=0.0002478972190463426
+12: diff w_ij=0.00023525024015714927
+13: diff w_ij=0.00024699506474242146
+14: diff w_ij=0.0001339046572329398
+15: diff w_ij=9.789666815475129e-05
+('====this is the data blob', 0)
+network
+learning
+neural
+rules
+set
+input
+unit
+rule
+training
+system
+('====this is the data blob', 1)
+network
+model
+system
+cell
+connection
+pattern
+input
+function
+point
+neuron
+('====this is the data blob', 2)
+object
+model
+image
+network
+images
+recognition
+view
+system
+visual
+neural
+('====this is the data blob', 3)
+system
+user
+model
+neural
+network
+word
+block
+set
+information
+vector
+('====this is the data blob', 4)
+network
+unit
+input
+weight
+learning
+output
+function
+training
+hidden
+neural
+('====this is the data blob', 5)
+map
+vector
+point
+network
+data
+space
+image
+input
+set
+learning
+('====this is the data blob', 6)
+network
+neural
+neuron
+system
+function
+dynamic
+point
+equation
+problem
+result
+('====this is the data blob', 7)
+cell
+spike
+information
+model
+neuron
+direction
+firing
+stimulus
+signal
+system
+('====this is the data blob', 8)
+image
+images
+algorithm
+learning
+set
+region
+system
+result
+number
+document
+('====this is the data blob', 9)
+network
+unit
+model
+input
+pattern
+visual
+layer
+motion
+system
+neuron
+('====this is the data blob', 10)
+neuron
+model
+input
+cell
+noise
+firing
+potential
+system
+membrane
+response
+('====this is the data blob', 11)
+network
+model
+neural
+system
+function
+signal
+input
+learning
+control
+training
+('====this is the data blob', 12)
+neuron
+network
+model
+neural
+system
+circuit
+current
+cell
+synaptic
+pattern
+('====this is the data blob', 13)
+circuit
+signal
+model
+frequency
+output
+system
+filter
+sound
+input
+auditory
+('====this is the data blob', 14)
+field
+mean
+distribution
+gaussian
+model
+function
+network
+approximation
+parameter
+method
+('====this is the data blob', 15)
+model
+learning
+control
+system
+motor
+movement
+network
+dynamic
+position
+controller
+('====this is the data blob', 16)
+neuron
+network
+synaptic
+model
+learning
+input
+function
+pattern
+neural
+spike
+('====this is the data blob', 17)
+learning
+network
+model
+system
+routing
+call
+policy
+decision
+function
+problem
+('====this is the data blob', 18)
+cell
+model
+orientation
+visual
+input
+neuron
+cortex
+cortical
+field
+receptive
+('====this is the data blob', 19)
+learning
+function
+algorithm
+action
+policy
+problem
+optimal
+step
+states
+model
+('====this is the data blob', 20)
+network
+function
+input
+circuit
+neural
+weight
+neuron
+analog
+chip
+output
+('====this is the data blob', 21)
+network
+neural
+system
+weight
+processor
+input
+chip
+memory
+instruction
+algorithm
+('====this is the data blob', 22)
+motion
+chip
+system
+circuit
+cell
+output
+direction
+visual
+image
+analog
+('====this is the data blob', 23)
+data
+model
+point
+cluster
+algorithm
+clustering
+graph
+problem
+function
+set
+('====this is the data blob', 24)
+network
+speech
+word
+recognition
+system
+training
+model
+neural
+input
+set
+('====this is the data blob', 25)
+david
+michael
+john
+richard
+peter
+index
+author
+thomas
+eric
+paul
+('====this is the data blob', 26)
+model
+data
+algorithm
+parameter
+set
+function
+distribution
+learning
+gaussian
+network
+('====this is the data blob', 27)
+learning
+network
+error
+weight
+algorithm
+training
+function
+neural
+input
+set
+('====this is the data blob', 28)
+set
+network
+training
+classifier
+data
+error
+pattern
+input
+algorithm
+method
+('====this is the data blob', 29)
+function
+algorithm
+learning
+set
+problem
+error
+vector
+data
+bound
+result
+
+Process finished with exit code 0
