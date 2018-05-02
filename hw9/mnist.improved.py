@@ -52,7 +52,7 @@ def cnn_model_fn(features, labels, mode):
       # Flatten tensor into a batch of vectors
       # Input Tensor Shape: [batch_size, 7, 7, 64]
       # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-    pool3_flat = tf.reshape(conv3, [-1, 7 * 7 * 64])
+    pool3_flat = tf.reshape(conv3, [-1, 7 * 7 * 192])
 
       # Dense Layer
       # Densely connected layer with 1024 neurons
