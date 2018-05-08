@@ -243,7 +243,7 @@ def inference(images):
   # local4
   with tf.variable_scope('local4') as scope:
     # Move everything into depth so we can perform a single matrix multiply.
-    reshape = tf.reshape(norm2, [images.get_shape().as_list()[0], -1])
+    reshape = tf.reshape(pool2, [images.get_shape().as_list()[0], -1])
     dim = reshape.get_shape()[1].value
     weights = _variable_with_weight_decay('weights', shape=[dim, 2048],
                                           stddev=0.04, wd=0.004)
