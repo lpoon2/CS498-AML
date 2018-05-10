@@ -8,7 +8,7 @@ import numpy as np
 import tensorflow as tf
 
 #things needs
-import cifar10_improved_2
+import cifar10_improved_5
 MAX_STEPS = 1000000
 LOG_FREQ = 100
 TRAIN_DIR = 'cifar10_train_improved'
@@ -64,11 +64,11 @@ def train():
   with tf.Graph().as_default():
     global_step = tf.train.get_or_create_global_step()
 
-    with tf.device('/cpu:0'): images, labels = cifar10_improved_2.distorted_inputs()
+    with tf.device('/cpu:0'): images, labels = cifar10_improved_5.distorted_inputs()
 
-    logits = cifar10_improved_2.inference(images)
-    loss = cifar10_improved_2.loss(logits, labels)
-    train_op = cifar10_improved_2.train(loss, global_step)
+    logits = cifar10_improved_5.inference(images)
+    loss = cifar10_improved_5.loss(logits, labels)
+    train_op = cifar10_improved_5.train(loss, global_step)
 
     class _LoggerHook(tf.train.SessionRunHook):
       def begin(self):
@@ -105,7 +105,7 @@ def train():
         mon_sess.run(train_op)
 
 def main(argv=None):  # pylint: disable=unused-argument
-  cifar10_improved_2.maybe_download_and_extract()
+  cifar10_improved_5.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.train_dir):
     tf.gfile.DeleteRecursively(FLAGS.train_dir)
   tf.gfile.MakeDirs(FLAGS.train_dir)

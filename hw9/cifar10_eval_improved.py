@@ -8,7 +8,7 @@ import math, time, os
 import numpy as np
 import tensorflow as tf
 
-import cifar10_improved_2
+import cifar10_improved_5
 TRAIN_DIR = 'cifar10_train_improved'
 EVAL_DIR='cifar10_eval_improved'
 os.environ["CUDA_VISIBLE_DEVICES"] = '-1'
@@ -64,10 +64,10 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 def evaluate():
   with tf.Graph().as_default() as g:
     eval_data = FLAGS.eval_data == 'test'
-    images, labels = cifar10_improved_2.inputs(eval_data=eval_data)
-    logits = cifar10_improved_2.inference(images)
+    images, labels = cifar10_improved_5.inputs(eval_data=eval_data)
+    logits = cifar10_improved_5.inference(images)
     top_k_op = tf.nn.in_top_k(logits, labels, 1)
-    variable_averages = tf.train.ExponentialMovingAverage(cifar10_improved_2.MOVING_AVERAGE_DECAY)
+    variable_averages = tf.train.ExponentialMovingAverage(cifar10_improved_5.MOVING_AVERAGE_DECAY)
     variables_to_restore = variable_averages.variables_to_restore()
     saver = tf.train.Saver(variables_to_restore)
 
@@ -81,7 +81,7 @@ def evaluate():
       time.sleep(FLAGS.eval_interval_secs)
 
 def main(argv=None):  # pylint: disable=unused-argument
-  cifar10_improved_2.maybe_download_and_extract()
+  cifar10_improved_5.maybe_download_and_extract()
   if tf.gfile.Exists(FLAGS.eval_dir):
     tf.gfile.DeleteRecursively(FLAGS.eval_dir)
   tf.gfile.MakeDirs(FLAGS.eval_dir)
